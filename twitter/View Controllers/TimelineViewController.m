@@ -8,6 +8,8 @@
 
 #import "TimelineViewController.h"
 #import "APIManager.h"
+#import "AppDelegate.h"
+#import "LoginViewController.h"
 
 @interface TimelineViewController ()
 
@@ -35,6 +37,15 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+- (IBAction)clickedLogout:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate; //using this application delegate can set window's root view controller (when we set the root view controller the screen will immediately switch to that view controller)
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil]; //programatically instatiating the storyboard so that we can create new instances of view controllers
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"]; //creates new instance of the login view controller
+    appDelegate.window.rootViewController = loginViewController; //sets the root view controller to be that new instance of the login view controller so the user can login anew
+    
+    [[APIManager shared] logout]; //clear access tokens for security
 }
 
 /*
