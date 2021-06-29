@@ -12,8 +12,9 @@
 #import "LoginViewController.h"
 #import "Tweet.h"
 #import "TweetCell.h"
+#import "ComposeViewController.h"
 
-@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate>
 @property (nonatomic, strong) NSMutableArray *arrayOfTweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -85,20 +86,39 @@
     NSURL *url = [NSURL URLWithString:URLString];
     NSData *urlData = [NSData dataWithContentsOfURL:url];
     cell.profileView.image = [UIImage imageWithData:urlData];
-    
+    //set images of the retweet and like buttons to corrospond to their like and retweet status
+    if(tweet.favorited){
+        [cell.likeButton setImage:[UIImage imageNamed:@"favor-icon-red.png"] forState:(UIControlStateNormal)];
+    }else{
+        [cell.likeButton setImage:[UIImage imageNamed:@"favor-icon.png"] forState:(UIControlStateNormal)];
+    }
+    if(tweet.retweeted){
+        [cell.retweetButton setImage:[UIImage imageNamed:@"retweet-icon-green.png"] forState:UIControlStateNormal];
+    }else{
+        [cell.retweetButton setImage:[UIImage imageNamed:@"retweet-icon.png"] forState:UIControlStateNormal];
+    }
+    //set the Tweet object of the TweetCell
+    cell.tweet = tweet;
     return cell;
 }
 
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    UINavigationController *navigationController = [segue destinationViewController];
+    ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+    composeController.delegate = self;
 }
-*/
+
+- (void)didTweet:(Tweet *)tweet{
+    [self.arrayOfTweets insertObject:tweet atIndex:0]; //add to start of tweets array
+    [self.tableView reloadData]; //reload tableview so updated tweet appears
+}
 
 
 @end
