@@ -71,34 +71,8 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     Tweet *tweet = self.arrayOfTweets[indexPath.row];
-    
-    //set all of the different text labels to have the appropriate data
-    cell.nameLabel.text = tweet.user.name;
-    if(tweet != nil){ //stringByAppendingString will throw a fit if appending a nil string, so can only set this if tweet is not nil
-        cell.screenNameLabel.text = [@"@" stringByAppendingString:tweet.user.screenName];
-    }
-    cell.dateLabel.text = tweet.createdAtString;
-    cell.tweetTextLabel.text = tweet.text;
-    [cell.likeButton setTitle:[NSString stringWithFormat:@"%d", tweet.favoriteCount] forState: UIControlStateNormal];
-    [cell.retweetButton setTitle:[NSString stringWithFormat:@"%d", tweet.retweetCount] forState: UIControlStateNormal];
-    //set the profile picture to have the right pictures
-    NSString *URLString = tweet.user.profilePicture;
-    NSURL *url = [NSURL URLWithString:URLString];
-    NSData *urlData = [NSData dataWithContentsOfURL:url];
-    cell.profileView.image = [UIImage imageWithData:urlData];
-    //set images of the retweet and like buttons to corrospond to their like and retweet status
-    if(tweet.favorited){
-        [cell.likeButton setImage:[UIImage imageNamed:@"favor-icon-red.png"] forState:(UIControlStateNormal)];
-    }else{
-        [cell.likeButton setImage:[UIImage imageNamed:@"favor-icon.png"] forState:(UIControlStateNormal)];
-    }
-    if(tweet.retweeted){
-        [cell.retweetButton setImage:[UIImage imageNamed:@"retweet-icon-green.png"] forState:UIControlStateNormal];
-    }else{
-        [cell.retweetButton setImage:[UIImage imageNamed:@"retweet-icon.png"] forState:UIControlStateNormal];
-    }
-    //set the Tweet object of the TweetCell
-    cell.tweet = tweet;
+    cell.tweet = tweet; //set the Tweet object of the TweetCell
+    [cell refreshData]; //update cell's labels
     return cell;
 }
 
