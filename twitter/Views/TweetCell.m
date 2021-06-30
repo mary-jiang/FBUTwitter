@@ -8,6 +8,7 @@
 
 #import "TweetCell.h"
 #import "APIManager.h"
+#import "NSDate+DateTools.h"
 
 @implementation TweetCell
 
@@ -96,7 +97,7 @@
     if(self.tweet != nil){ //stringByAppendingString will throw a fit if appending a nil string, so can only set this if tweet is not nil
         self.screenNameLabel.text = [@"@" stringByAppendingString:self.tweet.user.screenName];
     }
-    self.dateLabel.text = self.tweet.createdAtString;
+//    self.dateLabel.text = self.tweet.createdAtString;
     self.tweetTextLabel.text = self.tweet.text;
     [self.likeButton setTitle:[NSString stringWithFormat:@"%d", self.tweet.favoriteCount] forState: UIControlStateNormal];
     [self.retweetButton setTitle:[NSString stringWithFormat:@"%d", self.tweet.retweetCount] forState: UIControlStateNormal];
@@ -115,6 +116,32 @@
         [self.retweetButton setImage:[UIImage imageNamed:@"retweet-icon-green.png"] forState:UIControlStateNormal];
     }else{
         [self.retweetButton setImage:[UIImage imageNamed:@"retweet-icon.png"] forState:UIControlStateNormal];
+    }
+    NSDate *today = [NSDate date]; //create a date to represent user's current time to compare to the date tweet was posted
+    int minutes = (int)[today minutesFrom:self.tweet.createdAt];
+    if(minutes > 10080){ //tweet was tweeted more than a week ago
+        //format MM/DD/YY for tweets tweeted that long ago
+        //format the time stamp
+        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+        formatter.dateFormat = @"E MMM d HH:mm:ss Z y";
+        formatter.dateStyle = NSDateFormatterShortStyle;
+        formatter.timeStyle = NSDateFormatterNoStyle;
+        self.dateLabel.text = [formatter stringFromDate:self.tweet.createdAt]; //convert date to string
+    }else if(minutes > 1440){ //tweet was tweeted more than a day ago, but less than a week ago
+        //format as days passed
+        int days = (int)[today daysFrom:self.tweet.createdAt];
+        self.dateLabel.text = [NSString stringWithFormat:@"%dd", days];
+    }else if(minutes > 60){ //tweet was tweeted more than an hour ago, but less than a day ago
+        //format as hours passed
+        int hours = (int)[today hoursFrom:self.tweet.createdAt];
+        self.dateLabel.text = [NSString stringWithFormat:@"%dh", hours];
+    }else if(minutes == 0){ //casting the double to int will truncate, so if minutes is 0 then it was tweeted seconds ago, but less than a minute ago
+        //format as seconds passed
+        int seconds = (int)[today secondsFrom:self.tweet.createdAt];
+        self.dateLabel.text = [NSString stringWithFormat:@"%ds", seconds];
+    }else{ //tweet was tweeted more than a minute ago, but less than an hour ago
+        //format as minutes passed
+        self.dateLabel.text = [NSString stringWithFormat:@"%dm", minutes];
     }
 }
 
