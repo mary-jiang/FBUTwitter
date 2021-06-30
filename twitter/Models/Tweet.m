@@ -8,7 +8,7 @@
 
 #import "Tweet.h"
 #import "User.h"
-
+#import "NSDate+DateTools.h"
 @implementation Tweet
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary{
@@ -38,9 +38,31 @@
         formatter.dateFormat = @"E MMM d HH:mm:ss Z y"; //configure the input format to parse the date string
         NSDate *date = [formatter dateFromString:createdAtOriginalString]; //convert string to date
         //configure output format
-        formatter.dateStyle = NSDateFormatterShortStyle;
-        formatter.timeStyle = NSDateFormatterNoStyle;
-        self.createdAtString = [formatter stringFromDate:date]; //convert date to string
+        NSDate *today = [NSDate date]; //create a date to represent user's current time to compare to the date tweet was posted
+        int minutes = (int)[today minutesFrom:date];
+        if(minutes > 10080){ //tweet was tweeted more than a week ago
+            //format MM/DD/YY for tweets tweeted that long ago
+            formatter.dateStyle = NSDateFormatterShortStyle;
+            formatter.timeStyle = NSDateFormatterNoStyle;
+            self.createdAtString = [formatter stringFromDate:date]; //convert date to string
+        }else if(minutes > 1440){ //tweet was tweeted more than a day ago, but less than a week ago
+            //format as days passed
+            int days = (int)[today daysFrom:date];
+            self.createdAtString = [NSString stringWithFormat:@"%dd", days];
+        }else if(minutes > 60){ //tweet was tweeted more than an hour ago, but less than a day ago
+            //format as hours passed
+            int hours = (int)[today hoursFrom:date];
+            self.createdAtString = [NSString stringWithFormat:@"%dh", hours];
+        }else if(minutes == 0){ //casting the double to int will truncate, so if minutes is 0 then it was tweeted seconds ago, but less than a minute ago
+            //format as seconds passed
+            int seconds = (int)[today secondsFrom:date];
+            self.createdAtString = [NSString stringWithFormat:@"%ds", seconds];
+        }else{ //tweet was tweeted more than a minute ago, but less than an hour ago
+            //format as minutes passed
+            self.createdAtString = [NSString stringWithFormat:@"%dm", minutes];
+        }
+        
+
     }
     return self;
 }
