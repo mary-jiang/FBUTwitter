@@ -18,6 +18,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.textView.layer.cornerRadius = 8;
+    self.textView.layer.borderColor = [[UIColor grayColor] CGColor];
+    self.textView.layer.borderWidth = 1.0;
 }
 
 - (IBAction)closeClicked:(id)sender {

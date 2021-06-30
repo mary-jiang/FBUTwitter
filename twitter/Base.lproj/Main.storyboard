@@ -184,6 +184,7 @@
                             </connections>
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" title="Item" image="edit-icon" id="9e3-iv-9cu">
+                            <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             <connections>
                                 <segue destination="CEI-lT-pXu" kind="presentation" identifier="ComposeSegue" id="qGJ-FD-ghn"/>
                             </connections>
@@ -350,10 +351,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="414" height="842"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="h3x-58-YcP">
-                                <rect key="frame" x="20" y="84" width="374" height="256"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <color key="backgroundColor" systemColor="systemGray5Color"/>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="h3x-58-YcP">
+                                <rect key="frame" x="20" y="96" width="374" height="250.5"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
@@ -361,6 +360,13 @@
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vAk-09-PSB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="vAk-09-PSB" firstAttribute="trailing" secondItem="h3x-58-YcP" secondAttribute="trailing" constant="20" id="8Je-LI-kQH"/>
+                            <constraint firstItem="h3x-58-YcP" firstAttribute="height" secondItem="vAk-09-PSB" secondAttribute="height" multiplier="1/3" id="Nuh-aJ-pbX"/>
+                            <constraint firstItem="h3x-58-YcP" firstAttribute="leading" secondItem="vAk-09-PSB" secondAttribute="leading" constant="20" id="kDj-od-CVd"/>
+                            <constraint firstItem="h3x-58-YcP" firstAttribute="centerX" secondItem="8GT-bm-Cg4" secondAttribute="centerX" id="qpz-Vu-aWu"/>
+                            <constraint firstItem="h3x-58-YcP" firstAttribute="top" secondItem="vAk-09-PSB" secondAttribute="top" constant="40" id="wg2-P1-B20"/>
+                        </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="NTy-tw-T7w">
                         <barButtonItem key="leftBarButtonItem" image="close-icon" id="96q-x9-rZI">
@@ -390,6 +396,14 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="ytz-Ev-cUB">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <color key="barTintColor" red="0.1794456244" green="0.63288152220000005" blue="0.94829696419999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
+                        <textAttributes key="largeTitleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -408,6 +422,10 @@
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="d30-ZG-hrT">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <color key="barTintColor" red="0.1794456244" green="0.63288152220000005" blue="0.94829696419999998" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <textAttributes key="titleTextAttributes">
+                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        </textAttributes>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
@@ -419,6 +437,7 @@
             <point key="canvasLocation" x="2513" y="37"/>
         </scene>
     </scenes>
+    <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
     <resources>
         <image name="TwitterLogoBlue" width="200" height="200"/>
         <image name="close-icon" width="26" height="24"/>
@@ -436,9 +455,6 @@
         </systemColor>
         <systemColor name="systemGray3Color">
             <color red="0.7803921568627451" green="0.7803921568627451" blue="0.80000000000000004" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </systemColor>
-        <systemColor name="systemGray5Color">
-            <color red="0.89803921568627454" green="0.89803921568627454" blue="0.91764705882352937" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
         <systemColor name="systemGrayColor">
             <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>

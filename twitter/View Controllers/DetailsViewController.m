@@ -111,6 +111,7 @@
     NSURL *url = [NSURL URLWithString:URLString];
     NSData *urlData = [NSData dataWithContentsOfURL:url];
     self.profileView.image = [UIImage imageWithData:urlData];
+    self.profileView.layer.cornerRadius = 10;
     //set the button icons to be the correct image
     if(self.tweet.favorited){
         [self.likeButton setImage:[UIImage imageNamed:@"favor-icon-red.png"] forState:(UIControlStateNormal)];

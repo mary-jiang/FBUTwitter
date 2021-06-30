@@ -96,6 +96,8 @@
     self.nameLabel.text = self.tweet.user.name;
     if(self.tweet != nil){ //stringByAppendingString will throw a fit if appending a nil string, so can only set this if tweet is not nil
         self.screenNameLabel.text = [@"@" stringByAppendingString:self.tweet.user.screenName];
+    }else{
+        self.screenNameLabel.text = nil;
     }
 //    self.dateLabel.text = self.tweet.createdAtString;
     self.tweetTextLabel.text = self.tweet.text;
@@ -106,6 +108,7 @@
     NSURL *url = [NSURL URLWithString:URLString];
     NSData *urlData = [NSData dataWithContentsOfURL:url];
     self.profileView.image = [UIImage imageWithData:urlData];
+    self.profileView.layer.cornerRadius = 10;
     //set the button icons to be the correct image
     if(self.tweet.favorited){
         [self.likeButton setImage:[UIImage imageNamed:@"favor-icon-red.png"] forState:(UIControlStateNormal)];
@@ -142,6 +145,9 @@
     }else{ //tweet was tweeted more than a minute ago, but less than an hour ago
         //format as minutes passed
         self.dateLabel.text = [NSString stringWithFormat:@"%dm", minutes];
+    }
+    if(self.tweet == nil){
+        self.dateLabel.text = nil; //so when tweet is not in the cell yet just make the label empty 
     }
 }
 
