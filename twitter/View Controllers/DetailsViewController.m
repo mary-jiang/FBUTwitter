@@ -9,6 +9,7 @@
 #import "DetailsViewController.h"
 #import "Tweet.h"
 #import "APIManager.h"
+#import "ProfileViewController.h"
 
 @interface DetailsViewController ()
 @property (weak, nonatomic) IBOutlet UIImageView *profileView;
@@ -104,8 +105,8 @@
         self.screenNameLabel.text = [@"@" stringByAppendingString:self.tweet.user.screenName];
     }
     self.textLabel.text = self.tweet.text;
-    self.likesLabel.text = [NSString stringWithFormat:@"%d Likes", self.tweet.favoriteCount];
-    self.retweetsLabel.text = [NSString stringWithFormat:@"%d Retweets", self.tweet.retweetCount];
+    self.likesLabel.text = [NSString stringWithFormat:@"%d", self.tweet.favoriteCount];
+    self.retweetsLabel.text = [NSString stringWithFormat:@"%d", self.tweet.retweetCount];
     //set the profile picture to have the right picture
     NSString *URLString = self.tweet.user.profilePicture;
     NSURL *url = [NSURL URLWithString:URLString];
@@ -135,14 +136,16 @@
     
 }
 
-/*
+
 #pragma mark - Navigation
 
 // In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     // Get the new view controller using [segue destinationViewController].
     // Pass the selected object to the new view controller.
+    ProfileViewController *profileViewController = [segue destinationViewController];
+    profileViewController.user = self.tweet.user;
 }
-*/
+
 
 @end

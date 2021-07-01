@@ -14,8 +14,9 @@
 #import "TweetCell.h"
 #import "ComposeViewController.h"
 #import "DetailsViewController.h"
+#import "ProfileViewController.h"
 
-@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate>
+@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate, ComposeViewControllerDelegate, TweetCellDelegate>
 @property (nonatomic, strong) NSMutableArray *arrayOfTweets;
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) UIRefreshControl *refreshControl;
@@ -37,12 +38,6 @@
     [self.refreshControl addTarget:self action:@selector(fetchTweets) forControlEvents:UIControlEventValueChanged];
     [self.tableView insertSubview:self.refreshControl atIndex:0];
 }
-
-////called everytime view controller appears
-//- (void)viewWillAppear:(BOOL)animated{
-//    [self fetchTweets]; //this makes whole page refreshes so that when something is liked or rted from details the timeline refreshes to updat visually with this change (note: super inefficient)
-//}
-
 
 - (void)fetchTweets{
     // Get timeline
@@ -73,13 +68,14 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    return 20;
+    return (NSInteger) self.arrayOfTweets.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     Tweet *tweet = self.arrayOfTweets[indexPath.row];
     cell.tweet = tweet; //set the Tweet object of the TweetCell
+    cell.delegate = self; //set the delegate of TweetCell to be this view controller
     [cell refreshData]; //update cell's labels
     return cell;
 }
@@ -94,24 +90,32 @@
     // Pass the selected object to the new view controller.
     
     //check which segue is being used to get each new view controller accordingly
-    if([segue.identifier isEqualToString:@"ComposeSegue"]){
+    if([segue.identifier isEqual:@"ComposeSegue"]){
         UINavigationController *navigationController = [segue destinationViewController];
-        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController;
+        ComposeViewController *composeController = (ComposeViewController*)navigationController.topViewController; //sets compose view controller to be the top view of the navigation controller we made last line so it shows up as we are segueing to it
         composeController.delegate = self;
-    }else if([segue.identifier isEqualToString:@"DetailsSegue"]){
+    }else if([segue.identifier isEqual:@"DetailsSegue"]){
         UITableViewCell *tappedCell = sender;
         NSIndexPath *indexPath = [self.tableView indexPathForCell:tappedCell];
         Tweet *tweet = self.arrayOfTweets[indexPath.row];
         DetailsViewController *detailsViewController = [segue destinationViewController];
         detailsViewController.tweet = tweet;
+    }else if([segue.identifier isEqual:@"ProfileSegue"]){
+        ProfileViewController *profileViewController = [segue destinationViewController];
+        profileViewController.user = sender; //the thing that's performeing this segue sends over user as the sender
     }
     
 }
 
+//delegate method for ComposeViewController that composeviewcontroller calls, sending this method the new tweet so that this view controller can take that info from ComposeViewController and add that tweet into the tweet array and update the timeline accordingly
 - (void)didTweet:(Tweet *)tweet{
     [self.arrayOfTweets insertObject:tweet atIndex:0]; //add to start of tweets array
     [self.tableView reloadData]; //reload tableview so updated tweet appears
 }
 
+//delegate method for TweetCell that tells us that the profile pic was tapped so we should segue to the profile view
+- (void)tweetCell:(TweetCell *)tweetCell didTap:(User *)user{
+    [self performSegueWithIdentifier:@"ProfileSegue" sender:user];
+}
 
 @end

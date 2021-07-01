@@ -24,7 +24,11 @@
         }
         //put in all of the property information based on the data inside the dictionary
         self.idStr = dictionary[@"id_str"];
-        self.text = dictionary[@"text"];
+        if([dictionary valueForKey:@"full_text"] != nil){ //check to see if there is full text for the tweet
+            self.text = dictionary[@"full_text"]; //use full text if Twitter API provides it
+        }else{
+            self.text = dictionary[@"text"]; //otherwise fall back on regular text if no full text
+        }
         self.favoriteCount = [dictionary[@"favorite_count"] intValue];
         self.favorited = [dictionary[@"favorited"] boolValue];
         self.retweetCount = [dictionary[@"retweet_count"] intValue];

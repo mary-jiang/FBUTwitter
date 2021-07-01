@@ -53,32 +53,9 @@ static NSString * const baseURLString = @"https://api.twitter.com";
 }
 
 - (void)getHomeTimelineWithCompletion:(void(^)(NSArray *tweets, NSError *error))completion {
-    
-    //starter code's get request
-//    [self GET:@"1.1/statuses/home_timeline.json"
-//   parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
-//
-//       // Manually cache the tweets. If the request fails, restore from cache if possible.
-//       NSData *data = [NSKeyedArchiver archivedDataWithRootObject:tweetDictionaries];
-//       [[NSUserDefaults standardUserDefaults] setValue:data forKey:@"hometimeline_tweets"];
-//
-//       completion(tweetDictionaries, nil);
-//
-//   } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//
-//       NSArray *tweetDictionaries = nil;
-//
-//       // Fetch tweets from cache if possible
-//       NSData *data = [[NSUserDefaults standardUserDefaults] valueForKey:@"hometimeline_tweets"];
-//       if (data != nil) {
-//           tweetDictionaries = [NSKeyedUnarchiver unarchiveObjectWithData:data];
-//       }
-//
-//       completion(tweetDictionaries, error);
-//   }];
-    
+    NSDictionary *parameters = @{@"tweet_mode":@"extended"};
     //create a get request (get data from the api)
-    [self GET:@"1.1/statuses/home_timeline.json" parameters:nil progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
+    [self GET:@"1.1/statuses/home_timeline.json" parameters:parameters progress:nil success:^(NSURLSessionDataTask * _Nonnull task, NSArray *  _Nullable tweetDictionaries) {
         //success, was able to get data from the API
         NSMutableArray *tweets = [Tweet tweetsWithArray:tweetDictionaries]; //pass in the dictionaries we get from the API into our method which will initialize an array of Tweet objects from the dictionaries
         completion(tweets, nil);

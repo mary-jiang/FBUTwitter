@@ -15,6 +15,11 @@
 - (void)awakeFromNib {
     [super awakeFromNib];
     // Initialization code
+    
+    //create and configure tap recognizer (gesture recognizers used in reusable elements such as table view cells must be added and configured programatically)
+    UITapGestureRecognizer *profileTapGestureRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(didTapUserProfile:)]; //creates new tap gesture recognizer and adds it to this view and sets the method to be called when tapped to be didTapUserProfile
+    [self.profileView addGestureRecognizer:profileTapGestureRecognizer]; //adds gesture recognizer to profile view
+    [self.profileView setUserInteractionEnabled:true]; //makes sure that profile view can recieve touches/user interaction
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
@@ -149,6 +154,11 @@
     if(self.tweet == nil){
         self.dateLabel.text = nil; //so when tweet is not in the cell yet just make the label empty 
     }
+}
+
+//called when tap gesture recognizes a tap
+- (void) didTapUserProfile: (UITapGestureRecognizer *)sender{
+    [self.delegate tweetCell:self didTap:self.tweet.user];
 }
 
 @end

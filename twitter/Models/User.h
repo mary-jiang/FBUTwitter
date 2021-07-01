@@ -19,6 +19,11 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) NSString *name;
 @property (nonatomic, strong) NSString *screenName;
 @property (nonatomic, strong) NSString *profilePicture;
+@property (nonatomic, strong) NSString *tagline;
+@property (nonatomic, strong) NSString *headerPicture;
+@property (nonatomic) int followersCount;
+@property (nonatomic) int followingCount;
+@property (nonatomic) int tweetsCount;
 
 //methods
 
