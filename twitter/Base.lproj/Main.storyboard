@@ -352,11 +352,17 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="h3x-58-YcP">
-                                <rect key="frame" x="20" y="96" width="374" height="250.5"/>
+                                <rect key="frame" x="20" y="93" width="374" height="250.5"/>
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="280" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rWF-Lq-E7C">
+                                <rect key="frame" x="363" y="64" width="31" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" systemColor="systemGrayColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="vAk-09-PSB"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -364,8 +370,10 @@
                             <constraint firstItem="vAk-09-PSB" firstAttribute="trailing" secondItem="h3x-58-YcP" secondAttribute="trailing" constant="20" id="8Je-LI-kQH"/>
                             <constraint firstItem="h3x-58-YcP" firstAttribute="height" secondItem="vAk-09-PSB" secondAttribute="height" multiplier="1/3" id="Nuh-aJ-pbX"/>
                             <constraint firstItem="h3x-58-YcP" firstAttribute="leading" secondItem="vAk-09-PSB" secondAttribute="leading" constant="20" id="kDj-od-CVd"/>
+                            <constraint firstItem="h3x-58-YcP" firstAttribute="top" secondItem="rWF-Lq-E7C" secondAttribute="bottom" constant="8" id="leY-n6-2uX"/>
+                            <constraint firstItem="rWF-Lq-E7C" firstAttribute="top" secondItem="vAk-09-PSB" secondAttribute="top" constant="8" id="nz7-GK-mFa"/>
                             <constraint firstItem="h3x-58-YcP" firstAttribute="centerX" secondItem="8GT-bm-Cg4" secondAttribute="centerX" id="qpz-Vu-aWu"/>
-                            <constraint firstItem="h3x-58-YcP" firstAttribute="top" secondItem="vAk-09-PSB" secondAttribute="top" constant="40" id="wg2-P1-B20"/>
+                            <constraint firstItem="rWF-Lq-E7C" firstAttribute="trailing" secondItem="h3x-58-YcP" secondAttribute="trailing" id="z4X-b6-IPw"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="NTy-tw-T7w">
@@ -381,6 +389,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="characterCountLabel" destination="rWF-Lq-E7C" id="Nwk-mW-lGA"/>
                         <outlet property="textView" destination="h3x-58-YcP" id="zvM-X7-TWF"/>
                     </connections>
                 </viewController>

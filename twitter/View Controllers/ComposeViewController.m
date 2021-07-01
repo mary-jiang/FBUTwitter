@@ -9,7 +9,9 @@
 #import "ComposeViewController.h"
 #import "APIManager.h"
 
-@interface ComposeViewController ()
+@interface ComposeViewController () <UITextViewDelegate>
+@property (weak, nonatomic) IBOutlet UILabel *characterCountLabel;
+@property (nonatomic) int characterCount;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @end
 
@@ -18,6 +20,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
+    self.textView.delegate = self;
+    
+    self.characterCount = 0; //intially 0 characters are in the
+    
     self.textView.layer.cornerRadius = 8;
     self.textView.layer.borderColor = [[UIColor grayColor] CGColor];
     self.textView.layer.borderWidth = 1.0;
@@ -28,16 +35,31 @@
 }
 
 - (IBAction)tweetClicked:(id)sender {
-    //step 3 in composing tweet, NSString part put in the string from UITextView (textView), completion do something 
-    [[APIManager shared] postStatusWithText:self.textView.text completion:^(Tweet *tweet, NSError *error) {
-        if(error){
-            NSLog(@"error composing tweet: %@", error.localizedDescription);
-        }else{
-            [self.delegate didTweet:tweet]; //when no error send over the tweet to the delegate TimelineViewController to do stuff
-            NSLog(@"compose tweet successful");
-        }
-    }];
-    [self dismissViewControllerAnimated:true completion:nil];
+    if(self.characterCount <= 280){
+        [[APIManager shared] postStatusWithText:self.textView.text completion:^(Tweet *tweet, NSError *error) {
+            if(error){
+                NSLog(@"error composing tweet: %@", error.localizedDescription);
+            }else{
+                [self.delegate didTweet:tweet]; //when no error send over the tweet to the delegate TimelineViewController to do stuff
+                NSLog(@"compose tweet successful");
+            }
+        }];
+        [self dismissViewControllerAnimated:true completion:nil];
+    }else{
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"Too Many Characters!" message:@"Your tweet has too many characters. Edit your tweet and try again." preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault handler:^(UIAlertAction * _Nonnull action) {
+            //do nothing as all we want to do is dismiss alert
+        }];
+        [alert addAction:okAction];
+        [self presentViewController:alert animated:true completion:^{
+            //do nothing after presenting, nothing needs to be done
+        }];
+    }
+}
+
+- (void)textViewDidChange:(UITextView *)textView{
+    self.characterCount = (int) self.textView.text.length;
+    self.characterCountLabel.text = [NSString stringWithFormat:@"%d", 280 - self.characterCount];
 }
 
 /*
