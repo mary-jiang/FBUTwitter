@@ -53,10 +53,8 @@ Please list two areas of the assignment you'd like to **discuss further with you
 
 Here's a walkthrough of implemented user stories:
 
-![](https://i.imgur.com/EdZJ54f.gif)
+![](https://i.imgur.com/tcftkC0.gif)
 
-
-GIF created with [Kap](https://getkap.co/).
 
 ## Notes
 
